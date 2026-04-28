@@ -1,0 +1,322 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [5 0 R 7 0 R 9 0 R 11 0 R 13 0 R] /Count 5 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Length 304 >>
+stream
+BT
+/F1 12 Tf
+72 760 Td
+16 TL
+(COM3523/6523 Software Reengineering) Tj
+T*
+(Week 9: Redistribute Responsibilities) Tj
+T*
+(Mini Report) Tj
+T*
+() Tj
+T*
+(Participants) Tj
+T*
+(- Yongj \(implemented responsibility redistribution, regression testing, and report writing\)) Tj
+T*
+() Tj
+T*
+(Date: 2026-04-28) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 4 0 R >>
+endobj
+6 0 obj
+<< /Length 831 >>
+stream
+BT
+/F1 12 Tf
+72 760 Td
+16 TL
+(1. Motivation) Tj
+T*
+(The original design placed most behaviour in the Bank class. Bank stored global lists and dictionaries, managed branch opening times, moved staff between branches, changed account balances, applied interest, closed accounts, and reached through Payroll to update pay schedules. This made Bank a god class: it knew too much about the internal data and behaviour of other objects.) Tj
+T*
+() Tj
+T*
+(The aim of the refactoring was to redistribute responsibilities so behaviour sits closer to the data it changes. This follows the reengineering patterns from the exercise: move behaviour close to data, remove navigation code, and split up a god class. The public client behaviour and assertions were preserved, but assertions now check the objects that own the relevant state.) Tj
+ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 1169 >>
+stream
+BT
+/F1 12 Tf
+72 760 Td
+16 TL
+(2. Changes Made) Tj
+T*
+(Account now owns account-specific behaviour. Opening an account for a customer, adding funds, applying interest, and closing an account are implemented on Account. Bank still records which accounts are active, but it delegates balance and lifecycle changes to Account.) Tj
+T*
+() Tj
+T*
+(Branch now owns branch-specific behaviour. The default opening time is stored on the Branch, and Branch provides methods for changing the opening time, adding staff, transferring one staff member, and transferring all staff to another branch. Closing a branch in Bank now delegates the staff movement to Branch before removing the branch from the bank registry.) Tj
+T*
+() Tj
+T*
+(Customer now owns customer contact details. Default address and phone number are initialised inside Customer instead of being stored in dictionaries on Bank. The client now reads the default contact details from the Customer object directly.) Tj
+T*
+() Tj
+T*
+(Payroll now exposes a change_payroll_date method. This removes navigation code from Bank, because Bank no longer reaches through Payroll to obtain a PaySchedule and mutate it directly.) Tj
+ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 994 >>
+stream
+BT
+/F1 12 Tf
+72 760 Td
+16 TL
+(3. Rationale) Tj
+T*
+(The refactoring reduces coupling by making each class responsible for the state it owns. Bank remains useful as a coordinator and registry for branches, accounts, customers, and payroll, but it no longer needs to know the implementation details of account balances, branch staffing, contact details, or pay schedules.) Tj
+T*
+() Tj
+T*
+(This design is easier to evolve. For example, changing interest calculation now affects Account only, changing branch opening rules affects Branch only, and changing payroll date behaviour affects Payroll only. The client code also becomes clearer because it asks the domain object that owns the state rather than asking Bank for everything.) Tj
+T*
+() Tj
+T*
+(The refactoring was intentionally small and conservative. No new external dependencies were added, PaySchedule and Staff were left unchanged as requested, and the existing regression test still passes after the client assertions were updated.) Tj
+ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Length 5786 >>
+stream
+BT
+/F1 12 Tf
+72 760 Td
+16 TL
+(4. Verification) Tj
+T*
+(The regression test was run with:) Tj
+T*
+(python -m unittest tests/test_client.py) Tj
+T*
+() Tj
+T*
+(Result: the client regression test passed. The mini-report file is committed in the repository root as mini-report.pdf, as required by the README and autograder test.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+T*
+() Tj
+T*
+(Appendix: Responsibility Mapping) Tj
+T*
+(Account: customer association, balance updates, interest application, account closure.) Tj
+T*
+(Branch: opening time, staff collection, staff addition, staff transfer during branch closure.) Tj
+T*
+(Customer: name, default address, default phone number.) Tj
+T*
+(Payroll: staff-category pay date update.) Tj
+T*
+(Bank: coordination, active account list, customer list, branch list, payroll reference.) Tj
+ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 12 0 R >>
+endobj
+xref
+0 14
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000147 00000 n 
+0000000217 00000 n 
+0000000572 00000 n 
+0000000698 00000 n 
+0000001580 00000 n 
+0000001706 00000 n 
+0000002927 00000 n 
+0000003053 00000 n 
+0000004099 00000 n 
+0000004227 00000 n 
+0000010066 00000 n 
+trailer
+<< /Size 14 /Root 1 0 R >>
+startxref
+10194
+%%EOF

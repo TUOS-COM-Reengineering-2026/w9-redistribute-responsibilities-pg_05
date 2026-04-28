@@ -14,10 +14,10 @@ def client():
     branch_london = Branch(location="London")
     bank.setup_branch(branch_london)
     assert branch_london in bank.branches
-    assert bank.branch_opening_times[branch_london] == "9:00"
+    assert branch_london.get_opening_time() == "9:00"
 
     bank.change_opening_time(branch=branch_london, time="8:00")
-    assert bank.branch_opening_times[branch_london] == "8:00"
+    assert branch_london.get_opening_time() == "8:00"
 
     staff_john = Staff(name="John")
     bank.add_staff_member(branch=branch_london, staff=staff_john)
@@ -26,7 +26,7 @@ def client():
     branch_sheffield = Branch(location="Sheffield")
     bank.setup_branch(branch_sheffield)
     assert branch_sheffield in bank.branches
-    assert bank.branch_opening_times[branch_sheffield] == "9:00"
+    assert branch_sheffield.get_opening_time() == "9:00"
 
     bank.close_branch(branch=branch_london, transfer_branch=branch_sheffield)
     assert branch_london not in bank.branches
@@ -38,8 +38,8 @@ def client():
     bank.setup_new_account(account=account_alice, customer=customer_alice)
     assert account_alice in bank.accounts
     assert customer_alice in bank.customers
-    assert bank.customer_addresses[customer_alice] == "NO ADDRESS"
-    assert bank.customer_phone_numbers[customer_alice] == "NO PHONE NUMBER"
+    assert customer_alice.get_address() == "NO ADDRESS"
+    assert customer_alice.get_phone_number() == "NO PHONE NUMBER"
 
     account_alice_new = Account()
     bank.setup_new_account(account=account_alice_new, customer=customer_alice)
